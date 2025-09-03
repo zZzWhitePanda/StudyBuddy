@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import AIAssistant from "./AIAssistant";
 
 // ------------------------------- Utilities ---------------------------------
 
@@ -116,6 +117,7 @@ export default function App() {
     const saved = localStorage.getItem(LS.data);
     return saved ? JSON.parse(saved) : exampleData();
   });
+  const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [showWarning, setShowWarning] = useState(false);
   const [recentToggleTimes, setRecentToggleTimes] = useState([]);
@@ -249,6 +251,13 @@ export default function App() {
     {theme === "dark" ? "Light" : "Dark"}
   </button>
 
+    <button
+    onClick={() => setIsOpen(!isOpen)}
+    className="px-3 py-1 rounded-md bg-blue-600 text-white text-sm ml-2"
+  >
+    {isOpen ? "Close AI" : "Open AI"}
+  </button>
+
   {showWarning && (
     <div className="absolute right-0 mt-2 px-4 py-2 bg-blue-500 text-white text-sm rounded shadow min-w-[220px] text-center">
       Don't give yourself an epileptic seizure...
@@ -337,9 +346,18 @@ export default function App() {
             <div className="rounded-2xl p-6 border border-slate-200/70 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50">
               <p>No subjects yet. Create one to begin.</p>
             </div>
-          )}
+          )}  
         </section>
       </div>
+
+      {/* AI Assistant Side Panel */}
+{isOpen && (
+  <div className="fixed top-0 right-0 w-80 h-full bg-slate-100 dark:bg-slate-900 border-l border-slate-300 dark:border-slate-700 shadow-lg p-4 z-50">
+    <h2 className="text-lg font-semibold mb-2">AI Assistant</h2>
+    <AIAssistant />
+  </div>
+)}
+
     </div>
   );
 }
@@ -785,17 +803,44 @@ function FilesPanel({ subject, onChange }) {
 
   const remove = (id) => onChange({ files: subject.files.filter(f => f.id !== id) });
 
+  // 🔹 Pick icon based on file type/extension
+  const getFileIcon = (file) => {
+    const name = file.name.toLowerCase();
+
+    if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".gif")) {
+      return <img src={file.url} alt={file.name} className="w-full h-32 object-cover rounded-md mb-2" />;
+    }
+    if (name.endsWith(".pdf")) return <span className="text-red-500 text-4xl">📕</span>;
+    if (name.endsWith(".doc") || name.endsWith(".docx")) return <span className="text-blue-600 text-4xl">📘</span>;
+    if (name.endsWith(".ppt") || name.endsWith(".pptx")) return <span className="text-orange-500 text-4xl">📙</span>;
+    if (name.endsWith(".xls") || name.endsWith(".xlsx")) return <span className="text-green-600 text-4xl">📗</span>;
+    if (name.endsWith(".exe")) return <span className="text-gray-700 text-4xl">⚙️</span>;
+    if (name.endsWith(".zip") || name.endsWith(".rar")) return <span className="text-yellow-600 text-4xl">🗂️</span>;
+    
+    // default generic file
+    return <span className="text-slate-500 text-4xl">📄</span>;
+  };
+
   return (
     <div>
       <div className="flex items-center gap-2 mb-2">
         <input type="file" multiple onChange={(e)=>onFiles(e.target.files)} className="text-sm" />
-
       </div>
+
       <ul className="grid md:grid-cols-3 gap-3">
         {(subject.files||[]).map(f => (
           <li key={f.id} className="rounded-xl border border-slate-200/70 dark:border-slate-800 p-3 bg-white/70 dark:bg-slate-900/50">
+            
+            {/* File Preview / Icon */}
+            <div className="flex justify-center items-center mb-2">
+              {getFileIcon(f)}
+            </div>
+
+            {/* File Info */}
             <div className="text-sm font-medium truncate">{f.name}</div>
             <div className="text-xs opacity-70">{(f.size/1024).toFixed(1)} KB</div>
+
+            {/* Actions */}
             <div className="flex gap-2 mt-2">
               <a href={f.url} download className="h-8 px-2 rounded-md border text-xs flex items-center">Download</a>
               <button onClick={()=>remove(f.id)} className="h-8 px-2 rounded-md bg-red-600 text-white text-xs">Remove</button>
