@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { askAI } from "./ai";
 
+<<<<<<< HEAD
 function AIAssistant({ darkMode }) {
+=======
+function AIAssistant() {
+>>>>>>> 93d03f0a6fafb2fb3638759387c8daf85513c0ce
   const [input, setInput] = useState("");
   const [reply, setReply] = useState("");
 
@@ -10,6 +14,7 @@ function AIAssistant({ darkMode }) {
     setReply(res);
   }
 
+<<<<<<< HEAD
   // Conditional classes based on darkMode
   const bgClass = darkMode ? "bg-gray-800 text-white" : "bg-white text-black";
   const replyClass = darkMode ? "bg-gray-700 text-white" : "bg-slate-100 text-black";
@@ -20,6 +25,14 @@ function AIAssistant({ darkMode }) {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         className={`w-full p-2 border rounded mb-2 ${bgClass}`}
+=======
+  return (
+    <div className="p-4 rounded-lg border">
+      <textarea
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        className="w-full p-2 border rounded mb-2"
+>>>>>>> 93d03f0a6fafb2fb3638759387c8daf85513c0ce
         placeholder="Ask Study Buddy AI..."
       />
       <button
@@ -28,7 +41,11 @@ function AIAssistant({ darkMode }) {
       >
         Ask AI
       </button>
+<<<<<<< HEAD
       {reply && <div className={`mt-2 p-2 border rounded ${replyClass}`}>{reply}</div>}
+=======
+      {reply && <div className="mt-2 p-2 border rounded bg-slate-100">{reply}</div>}
+>>>>>>> 93d03f0a6fafb2fb3638759387c8daf85513c0ce
     </div>
   );
 }

@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "groq-sdk": "^0.32.0",
+=======
+>>>>>>> 93d03f0a6fafb2fb3638759387c8daf85513c0ce
     "openai": "^5.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
