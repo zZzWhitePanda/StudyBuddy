@@ -253,13 +253,13 @@ export default function App() {
 
     <button
     onClick={() => setIsOpen(!isOpen)}
-    className="px-3 py-1 rounded-md bg-blue-600 text-white text-sm ml-2"
+    className="h-9 px-3 rounded-md border border-slate-200/70 dark:border-slate-700/60 bg-white/80 dark:bg-slate-900/60 text-sm ml-2"
   >
     {isOpen ? "Close AI" : "Open AI"}
   </button>
 
   {showWarning && (
-    <div className="absolute right-0 mt-2 px-4 py-2 bg-blue-500 text-white text-sm rounded shadow min-w-[220px] text-center">
+    <div className="absolute right-0 mt-2 px-4 py-2 rounded shadow min-w-[220px] text-center border border-slate-200/70 dark:border-slate-700/60 bg-white/80 dark:bg-slate-900/60 text-sm">
       Don't give yourself an epileptic seizure...
     </div>
   )}
