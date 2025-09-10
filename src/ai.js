@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import Groq from "groq-sdk";
 
 const client = new Groq({
@@ -12,28 +11,13 @@ export async function askAI(prompt) {
 
   try {
     const response = await client.chat.completions.create({
-      model: "llama3-8b-8192", // Groq’s fast LLaMA model
+      model: "llama3-8b-8192", 
       messages: [{ role: "user", content: prompt }],
     });
 
     return response.choices[0]?.message?.content || "⚠️ No response from AI";
   } catch (err) {
     console.error("❌ Groq request failed:", err);
-=======
-export async function askAI(prompt) {
-  try {
-    const res = await fetch("/api/ask", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt }),
-    });
-
-    const data = await res.json();
-    if (data.reply) return data.reply;
-    return "⚠️ Error from AI service: " + (data.error || "unknown");
-  } catch (err) {
-    console.error(err);
->>>>>>> 93d03f0a6fafb2fb3638759387c8daf85513c0ce
     return "⚠️ Could not contact AI service.";
   }
 }
