@@ -10,7 +10,6 @@ function AIAssistant({ darkMode }) {
     setReply(res);
   }
 
-  // Conditional classes based on darkMode
   const bgClass = darkMode ? "bg-gray-800 text-white" : "bg-white text-black";
   const replyClass = darkMode ? "bg-gray-700 text-white" : "bg-slate-100 text-black";
 

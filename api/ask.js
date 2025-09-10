@@ -1,8 +1,8 @@
-// api/ask.js
-import OpenAI from "openai";
+// /api/ask.js
+import Groq from "groq-sdk";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // stored safely on Vercel
+const client = new Groq({
+  apiKey: process.env.GROQ_API_KEY // <- server-side only
 });
 
 export default async function handler(req, res) {
@@ -10,18 +10,18 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  try {
-    const { prompt } = req.body;
+  const { prompt } = req.body;
+  if (!prompt) return res.status(400).json({ error: "No prompt provided" });
 
+  try {
     const response = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
+      model: "llama3-8b-8192",
+      messages: [{ role: "user", content: prompt }]
     });
 
-    const reply = response.choices[0].message.content;
-    return res.status(200).json({ reply });
+    res.status(200).json({ reply: response.choices[0]?.message?.content || "" });
   } catch (err) {
-    console.error("AI error:", err);
-    return res.status(500).json({ error: "AI request failed" });
+    console.error("❌ Groq request failed:", err);
+    res.status(500).json({ error: "AI request failed" });
   }
 }
