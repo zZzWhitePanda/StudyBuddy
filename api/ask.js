@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await client.chat.completions.create({
-      model: "llama3-8b-8192",
+      model: "llama3-13b",
       messages: [{ role: "user", content: prompt }]
     });
 
