@@ -1,3 +1,5 @@
+console.log("Loaded GROQ key?", process.env.GROQ_API_KEY ? "✅ Yes" : "❌ No");
+
 // /api/ask.js
 import Groq from "groq-sdk";
 
